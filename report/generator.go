@@ -431,6 +431,37 @@ var htmlTemplate = `<!DOCTYPE html>
       margin-top: 32px;
     }
 
+    /* --- Search Bar --- */
+    .search-wrapper {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      padding-left: 40px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
     .empty h3 {
       font-size: 18px;
       font-weight: 600;
@@ -502,6 +533,11 @@ var htmlTemplate = `<!DOCTYPE html>
       </div>
     </div>
 
+    <div class="search-wrapper">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search API paths, methods, tags or summaries..." onkeyup="filterEndpoints()">
+    </div>
+
     <!-- DOCUMENTED TAB -->
     <div class="tab-content active" id="documented">
       {{if .DocumentedGroups}}
@@ -563,6 +599,31 @@ var htmlTemplate = `<!DOCTYPE html>
         document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
+    }
+
+    function filterEndpoints() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toLowerCase();
+        var rows = document.getElementsByClassName("endpoint-row");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var rowText = rows[i].textContent || rows[i].innerText;
+            if (rowText.toLowerCase().indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+        
+        var groups = document.getElementsByClassName("tag-group");
+        for (var j = 0; j < groups.length; j++) {
+            var visibleRows = groups[j].querySelectorAll('.endpoint-row:not([style*="display: none"])');
+            if (visibleRows.length === 0) {
+                groups[j].style.display = "none";
+            } else {
+                groups[j].style.display = "";
+            }
+        }
     }
   </script>
 </body>

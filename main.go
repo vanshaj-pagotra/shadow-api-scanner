@@ -13,10 +13,16 @@ import (
 
 func main() {
 	// Define command-line flags
-	logFile := flag.String("log", "testdata/access.log", "path to Nginx/Apache access log")
-	specFile := flag.String("spec", "testdata/abha_api_v3.yaml", "path to OpenAPI/Swagger spec (YAML)")
-	outFile := flag.String("out", "output/report.html", "output HTML report file")
+	logFile := flag.String("log", "", "path to Nginx/Apache access log (Required)")
+	specFile := flag.String("spec", "", "path to OpenAPI/Swagger spec (YAML/JSON) (Required)")
+	outFile := flag.String("out", "report.html", "output HTML report file")
 	flag.Parse()
+
+	if *logFile == "" || *specFile == "" {
+		fmt.Println("Usage: shadow-api-scanner --log <access.log> --spec <swagger.json> [--out <report.html>]")
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
 
 	// Parse the access log
 	fmt.Printf("Parsing log file: %s\n", *logFile)

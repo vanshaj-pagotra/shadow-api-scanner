@@ -36,18 +36,15 @@ type FindingRow struct {
 	RiskColor string
 }
 
-// assessRisk assigns a risk level based on the path
+// assessRisk assigns a risk level based on the OWASP Category
 func assessRisk(f engine.Finding) (string, string) {
-	path := strings.ToLower(f.Path)
-
-	switch {
-	case strings.Contains(path, "admin") || strings.Contains(path, "debug") || strings.Contains(path, "internal") || strings.Contains(path, "config"):
-		return "HIGH", "#d97706"
-	case strings.Contains(path, "legacy") || strings.Contains(path, "old") || strings.Contains(path, "v1") || strings.Contains(path, "v2") || strings.Contains(path, "test"):
-		return "MEDIUM", "#ca8a04"
-	default:
-		return "LOW", "#16a34a"
+	if strings.HasPrefix(f.OWASPCategory, "API1") || strings.HasPrefix(f.OWASPCategory, "API5") || strings.HasPrefix(f.OWASPCategory, "API8") {
+		return "HIGH", "#dc2626"
 	}
+	if strings.HasPrefix(f.OWASPCategory, "API9") {
+		return "MEDIUM", "#ca8a04"
+	}
+	return "LOW", "#16a34a"
 }
 
 // Generate writes the HTML report to the given output path

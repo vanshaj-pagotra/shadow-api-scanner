@@ -8,6 +8,11 @@ import (
 	"shadow-api-scanner/spec"
 )
 
+var (
+	numericIDRegex = regexp.MustCompile(`/[0-9]+(/|$)`)
+	uuidRegex      = regexp.MustCompile(`/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(/|$)`)
+)
+
 // Finding represents an API endpoint in the attack surface
 type Finding struct {
 	Method        string
@@ -46,6 +51,10 @@ func compileSpecEndpoints(endpoints []spec.SpecEndpoint) []compiledEndpoint {
 // determineOWASPCategory assigns an OWASP Top 10 category to Shadow APIs
 func determineOWASPCategory(path string) string {
 	lowerPath := strings.ToLower(path)
+
+	if numericIDRegex.MatchString(path) || uuidRegex.MatchString(path) {
+		return "API1:2023 Broken Object Level Authorization"
+	}
 	if strings.Contains(lowerPath, "/admin/") || strings.Contains(lowerPath, "/internal/") {
 		return "API5:2023 Broken Function Level Authorization"
 	}

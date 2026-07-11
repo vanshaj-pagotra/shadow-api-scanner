@@ -1,0 +1,10 @@
+*.exe
+*.out
+shadow-api-scanner.exe
+
+*.html
+output/
+testdata/
+
+.DS_Store
+Thumbs.db

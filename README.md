@@ -1,9 +1,6 @@
 # Shadow API Scanner
 
 A fast, passive API attack surface discovery tool designed to identify undocumented (Shadow) APIs by reconciling web server access logs against OpenAPI and Swagger specifications. 
-
-Built for the **Ayushman Bharat Digital Health Gateways (HCIC-SI2026)**.
-
 ## 🚀 Features
 
 - **Passive Analysis**: Parses standard Nginx/Apache access logs directly. No active interception, no network overhead, and zero performance impact on your live servers.
@@ -54,6 +51,3 @@ The generated HTML file is entirely static and requires no web server to view. J
 * **Documented APIs Tab**: Shows the actively used APIs grouped by their Swagger tags.
 * **Shadow APIs Tab**: Highlights the undocumented endpoints, tagged with computed Risk Severity (High, Medium, Low) and potential OWASP vulnerabilities.
 * **Live Search**: A client-side search bar to instantly filter the attack surface by path, method, or summary.
-
----
-*Developed for the HCIC Project.*

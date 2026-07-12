@@ -21,8 +21,11 @@ cd shadow-api-scanner
 # Download dependencies
 go mod download
 
-# Build the executable
+# Build the executable (Linux/macOS)
 go build -o shadow-api-scanner
+
+# Build the executable (Windows)
+go build -o shadow-api-scanner.exe
 ```
 
 ## 💻 Usage
@@ -34,7 +37,14 @@ The CLI tool is extremely simple to use and takes three main flags:
 
 ### Example Run
 ```bash
+# Using the compiled binary (Linux/macOS):
 ./shadow-api-scanner --log <path-to-access.log> --spec <path-to-api-spec.yaml> --out <output-report.html>
+
+# Using the compiled binary (Windows):
+./shadow-api-scanner.exe --log <path-to-access.log> --spec <path-to-api-spec.yaml> --out <output-report.html>
+
+# Or running directly without building (Cross-platform):
+go run . --log <path-to-access.log> --spec <path-to-api-spec.yaml> --out <output-report.html>
 ```
 
 ## 🧠 How It Works
